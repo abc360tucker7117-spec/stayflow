@@ -66,6 +66,9 @@ table{width:100%;border-collapse:collapse}th,td{padding:10px 7px;border-bottom:1
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="./supabase-config.js"></script>
 <script>
+// Safari/iPad-safe DOM helpers
+function $(sel, root=document){ return root.querySelector(sel); }
+function $$(sel, root=document){ return Array.from(root.querySelectorAll(sel)); }
 const KEY='stayflow-v4';
 const LEGACY_KEY='stayflow-v3';
 const CLOUD_CONFIG_KEY='stayflow-v4-cloud';
