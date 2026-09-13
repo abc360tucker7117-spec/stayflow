@@ -1,0 +1,10 @@
+{
+  "name": "StayFlow Pro V4 Cloud",
+  "short_name": "StayFlow",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f3f6fb",
+  "theme_color": "#2563eb",
+  "description": "Staycation booking, calendar, recurring reminders and workload planner",
+  "icons": []
+}
