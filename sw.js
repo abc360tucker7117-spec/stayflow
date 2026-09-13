@@ -1,4 +1,4 @@
-const CACHE='stayflow-v4-cache-1';
+const CACHE='stayflow-v4-cache-2';
 const ASSETS=['./','./index.html','./manifest.webmanifest','./supabase-config.js'];
 self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS))));
 self.addEventListener('activate',e=>e.waitUntil(self.clients.claim()));

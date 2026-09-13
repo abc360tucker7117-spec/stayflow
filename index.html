@@ -69,16 +69,18 @@ table{width:100%;border-collapse:collapse}th,td{padding:10px 7px;border-bottom:1
 const KEY='stayflow-v4';
 const LEGACY_KEY='stayflow-v3';
 const CLOUD_CONFIG_KEY='stayflow-v4-cloud';
+function newId(){if(window.crypto&&typeof window.crypto.randomUUID==='function')return window.crypto.randomUUID();return 'sf-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2)+'-'+Math.random().toString(36).slice(2);}
+function cloneData(x){return JSON.parse(JSON.stringify(x));}
 const defaultData={settings:{name:'StayFlow Pro',in:'14:00',out:'12:00',notify:false},bookings:[],events:[],routines:[
-{id:crypto.randomUUID(),title:'Check guest messages',repeat:'daily',time:'09:00',type:'Guest follow-up',notes:'',active:true},
-{id:crypto.randomUUID(),title:'Review today’s arrivals and departures',repeat:'daily',time:'10:00',type:'Operations',notes:'',active:true},
-{id:crypto.randomUUID(),title:'Website / inquiry check',repeat:'daily',time:'16:00',type:'Website',notes:'',active:true}
+{id:newId(),title:'Check guest messages',repeat:'daily',time:'09:00',type:'Guest follow-up',notes:'',active:true},
+{id:newId(),title:'Review today’s arrivals and departures',repeat:'daily',time:'10:00',type:'Operations',notes:'',active:true},
+{id:newId(),title:'Website / inquiry check',repeat:'daily',time:'16:00',type:'Website',notes:'',active:true}
 ],rooms:[],guests:[],expenses:[],notes:'',quick:'',checks:[{id:1,text:'Check tomorrow’s arrivals',done:false},{id:2,text:'Confirm cleaning / turnover',done:false},{id:3,text:'Reply to guest messages',done:false},{id:4,text:'Review website inquiries',done:false}]};
 let data=JSON.parse(localStorage.getItem(KEY)||'null');
 let migratedFromV3=false;
 if(!data){
   const legacy=JSON.parse(localStorage.getItem(LEGACY_KEY)||'null');
-  data=legacy||structuredClone(defaultData);
+  data=legacy||cloneData(defaultData);
   migratedFromV3=!!legacy;
   localStorage.setItem(KEY,JSON.stringify(data));
 }
@@ -217,12 +219,12 @@ function openRoutine(){ openModal('routineModal');$('#routineForm').reset();$('#
 function openProperty(){openModal('propertyModal')}function openGuest(){openModal('guestModal')}
 $$('.modalbg').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)m.classList.add('hidden')}));document.addEventListener('keydown',e=>{if(e.key==='Escape')closeAllModals()})
 $('#routineForm').elements.repeat.onchange=e=>$('#weekdayWrap').classList.toggle('hidden',e.target.value!=='weekly')
-$('#bookingForm').onsubmit=e=>{e.preventDefault();let f=new FormData(e.target),b={id:crypto.randomUUID(),guest:f.get('guest'),unit:f.get('unit'),in:f.get('in'),out:f.get('out'),status:f.get('status'),payment:f.get('payment'),amount:+(f.get('amount')||0),pax:+(f.get('pax')||1),notes:f.get('notes')};if(b.status!=='Cancelled'&&data.bookings.some(x=>x.id!==b.id&&x.unit===b.unit&&x.status!=='Cancelled'&&new Date(b.in)<new Date(x.out)&&new Date(b.out)>new Date(x.in))){alert('⚠️ Overlapping booking detected for this unit.');return}data.bookings.push(b);closeM('bookingModal');e.target.reset();save()}
-$('#eventForm').onsubmit=e=>{e.preventDefault();let f=new FormData(e.target);data.events.push({id:crypto.randomUUID(),title:f.get('title'),type:f.get('type'),priority:f.get('priority'),when:f.get('when'),duration:+f.get('duration'),notes:f.get('notes'),done:false});closeM('eventModal');save()}
-$('#routineForm').onsubmit=e=>{e.preventDefault();let f=new FormData(e.target);data.routines.push({id:crypto.randomUUID(),title:f.get('title'),repeat:f.get('repeat'),time:f.get('time'),weekday:+f.get('weekday'),type:f.get('type'),notes:f.get('notes'),active:f.get('active')==='on'});closeM('routineModal');save()}
-$('#propertyForm').onsubmit=e=>{e.preventDefault();let f=new FormData(e.target);data.rooms.push({id:crypto.randomUUID(),name:f.get('name'),property:f.get('property'),cap:+f.get('cap'),rate:+f.get('rate')});closeM('propertyModal');e.target.reset();save()}
-$('#guestForm').onsubmit=e=>{e.preventDefault();let f=new FormData(e.target);data.guests.push({id:crypto.randomUUID(),name:f.get('name'),phone:f.get('phone'),contact:f.get('contact'),notes:f.get('notes')});closeM('guestModal');e.target.reset();save()}
-$('#expenseForm').onsubmit=e=>{e.preventDefault();let f=new FormData(e.target);data.expenses.push({id:crypto.randomUUID(),desc:f.get('desc'),amount:+f.get('amount'),date:f.get('date'),cat:f.get('cat')});save();e.target.reset()}
+$('#bookingForm').onsubmit=e=>{e.preventDefault();let f=new FormData(e.target),b={id:newId(),guest:f.get('guest'),unit:f.get('unit'),in:f.get('in'),out:f.get('out'),status:f.get('status'),payment:f.get('payment'),amount:+(f.get('amount')||0),pax:+(f.get('pax')||1),notes:f.get('notes')};if(b.status!=='Cancelled'&&data.bookings.some(x=>x.id!==b.id&&x.unit===b.unit&&x.status!=='Cancelled'&&new Date(b.in)<new Date(x.out)&&new Date(b.out)>new Date(x.in))){alert('⚠️ Overlapping booking detected for this unit.');return}data.bookings.push(b);closeM('bookingModal');e.target.reset();save()}
+$('#eventForm').onsubmit=e=>{e.preventDefault();let f=new FormData(e.target);data.events.push({id:newId(),title:f.get('title'),type:f.get('type'),priority:f.get('priority'),when:f.get('when'),duration:+f.get('duration'),notes:f.get('notes'),done:false});closeM('eventModal');save()}
+$('#routineForm').onsubmit=e=>{e.preventDefault();let f=new FormData(e.target);data.routines.push({id:newId(),title:f.get('title'),repeat:f.get('repeat'),time:f.get('time'),weekday:+f.get('weekday'),type:f.get('type'),notes:f.get('notes'),active:f.get('active')==='on'});closeM('routineModal');save()}
+$('#propertyForm').onsubmit=e=>{e.preventDefault();let f=new FormData(e.target);data.rooms.push({id:newId(),name:f.get('name'),property:f.get('property'),cap:+f.get('cap'),rate:+f.get('rate')});closeM('propertyModal');e.target.reset();save()}
+$('#guestForm').onsubmit=e=>{e.preventDefault();let f=new FormData(e.target);data.guests.push({id:newId(),name:f.get('name'),phone:f.get('phone'),contact:f.get('contact'),notes:f.get('notes')});closeM('guestModal');e.target.reset();save()}
+$('#expenseForm').onsubmit=e=>{e.preventDefault();let f=new FormData(e.target);data.expenses.push({id:newId(),desc:f.get('desc'),amount:+f.get('amount'),date:f.get('date'),cat:f.get('cat')});save();e.target.reset()}
 $('#quick').value=data.quick||'';$('#quick').oninput=e=>{data.quick=e.target.value;localStorage.setItem(KEY,JSON.stringify(data));scheduleCloudSave()}
 $('#notes').value=data.notes||'';$('#notes').oninput=e=>{data.notes=e.target.value;localStorage.setItem(KEY,JSON.stringify(data));scheduleCloudSave()}
 $('#settings').onsubmit=e=>{e.preventDefault();let f=new FormData(e.target);data.settings={name:f.get('name'),in:f.get('in'),out:f.get('out'),notify:f.get('notify')==='on'};save();requestNotify()}

@@ -1,6 +1,7 @@
 // StayFlow V4 Cloud configuration.
-// This file contains only the browser-safe Supabase publishable key.
+// Paste your Supabase project URL and PUBLISHABLE key below.
+// Do NOT put a secret/service-role key here.
 window.STAYFLOW_SUPABASE = {
-  url: 'https://mzubcjsfpupiopfssvhk.supabase.co',
-  key: 'sb_publishable_h3QqIZLjRs3aPzCHnqwhnA__0UzcDGq'
+  url: '',
+  key: ''
 };
