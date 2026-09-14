@@ -157,7 +157,7 @@ async function loadCloud(){
   $('#cloudUser').textContent=`Signed in as ${cloudUser.email||'account'}`;
   setCloudStatus('Loading…','orangeb');
   const {data:row,error}=await sb.from('planner_data').select('data,updated_at').eq('user_id',cloudUser.id).maybeSingle();
-  if(error){setCloudStatus('Sync error','redb');console.error("Andrei's Business Hub cloud load error:',error);alert('Cloud load failed: '+(error.message||error.code||'Unknown error'));return}
+  if(error){setCloudStatus('Sync error','redb');console.error("Andrei's Business Hub cloud load error:",error);alert('Cloud load failed: '+(error.message||error.code||'Unknown error'));return}
   cloudLoading=true;
   if(row?.data){
     data=normalizeData(row.data);
