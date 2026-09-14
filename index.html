@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#2563eb"><link rel="manifest" href="manifest.webmanifest">
-<title>Andrei's Business Flow</title>
+<title>Andrei's Business Hub</title>
 <style>
 :root{--bg:#f3f6fb;--card:#fff;--ink:#172033;--muted:#687386;--line:#e1e7ef;--blue:#2563eb;--blue2:#eff6ff;--green:#16a34a;--green2:#dcfce7;--orange:#d97706;--orange2:#fef3c7;--red:#dc2626;--red2:#fee2e2;--purple:#7c3aed;--purple2:#ede9fe;--shadow:0 7px 24px #0f172a12}
 *{box-sizing:border-box}.hidden{display:none!important}body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial}.app{display:grid;grid-template-columns:245px 1fr;min-height:100vh}
@@ -77,7 +77,7 @@ const LEGACY_KEY='stayflow-v3';
 const CLOUD_CONFIG_KEY='stayflow-v4-cloud';
 function newId(){if(window.crypto&&typeof window.crypto.randomUUID==='function')return window.crypto.randomUUID();return 'sf-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2)+'-'+Math.random().toString(36).slice(2);}
 function cloneData(x){return JSON.parse(JSON.stringify(x));}
-const defaultData={settings:{name:"Andrei's Business Flow",in:'14:00',out:'12:00',notify:false,alarmSound:true},bookings:[],events:[],routines:[
+const defaultData={settings:{name:"Andrei's Business Hub",in:'14:00',out:'12:00',notify:false,alarmSound:true},bookings:[],events:[],routines:[
 {id:newId(),title:'Check guest messages',repeat:'daily',time:'09:00',type:'Guest follow-up',notes:'',active:true},
 {id:newId(),title:'Review today’s arrivals and departures',repeat:'daily',time:'10:00',type:'Operations',notes:'',active:true},
 {id:newId(),title:'Website / inquiry check',repeat:'daily',time:'16:00',type:'Website',notes:'',active:true}
@@ -93,7 +93,7 @@ if(!data){
 function normalizeData(d){
   d=d&&typeof d==='object'?d:cloneData(defaultData);
   d.settings=d.settings&&typeof d.settings==='object'?d.settings:{};
-  d.settings.name=d.settings.name||"Andrei's Business Flow"; d.settings.in=d.settings.in||'14:00'; d.settings.out=d.settings.out||'12:00';
+  d.settings.name=d.settings.name||"Andrei's Business Hub"; d.settings.in=d.settings.in||'14:00'; d.settings.out=d.settings.out||'12:00';
   d.settings.alarmSound=d.settings.alarmSound!==false; d.settings.notify=!!d.settings.notify;
   d.bookings=Array.isArray(d.bookings)?d.bookings:[]; d.events=Array.isArray(d.events)?d.events:[]; d.routines=Array.isArray(d.routines)?d.routines:[];
   d.rooms=Array.isArray(d.rooms)?d.rooms:[]; d.guests=Array.isArray(d.guests)?d.guests:[]; d.checks=Array.isArray(d.checks)?d.checks:[];
