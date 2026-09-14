@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#2563eb"><link rel="manifest" href="manifest.webmanifest">
-<title>StayFlow Pro V4 Cloud</title>
+<title>Andrei's Business Flow</title>
 <style>
 :root{--bg:#f3f6fb;--card:#fff;--ink:#172033;--muted:#687386;--line:#e1e7ef;--blue:#2563eb;--blue2:#eff6ff;--green:#16a34a;--green2:#dcfce7;--orange:#d97706;--orange2:#fef3c7;--red:#dc2626;--red2:#fee2e2;--purple:#7c3aed;--purple2:#ede9fe;--shadow:0 7px 24px #0f172a12}
 *{box-sizing:border-box}.hidden{display:none!important}body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial}.app{display:grid;grid-template-columns:245px 1fr;min-height:100vh}
@@ -24,7 +24,7 @@ table{width:100%;border-collapse:collapse}th,td{padding:10px 7px;border-bottom:1
 </style></head>
 <body>
 <div id="appLock" class="hidden"><div class="lockcard"><h2>🔐 StayFlow is locked</h2><p class="meta">Enter your website password to continue.</p><input id="unlockPassword" type="password" placeholder="Website password"><button class="btn primary" style="width:100%;margin-top:10px" onclick="unlockApp()">Unlock</button><div id="lockMsg" class="meta" style="color:#dc2626;margin-top:8px"></div></div></div>
-<div class="app"><aside><div class="brand">Stay<b>Flow</b> Pro</div><div class="nav">
+<div class="app"><aside><div class="brand">Andrei's <b>Business Flow</b></div><div class="nav">
 <button data-v="dashboard" class="active">🏠 Dashboard</button><button data-v="calendar">📅 Calendar</button><button data-v="bookings">🏡 Bookings</button><button data-v="properties">🏢 Properties</button><button data-v="tasks">✅ Tasks</button><button data-v="routines">🔁 Daily Routines</button><button data-v="guests">👤 Guests</button><button data-v="finance">💰 Finance</button><button data-v="notes">📝 Notes</button><button data-v="settings">⚙️ Settings</button>
 </div><div class="side"><b>V4 cloud operations planner</b><br>Recurring routines + reminders, reservations, turnover, meetings and business workload in one calendar.</div></aside>
 <main><div class="mobile"><button data-v="dashboard" class="soft">Dashboard</button><button data-v="calendar" class="soft">Calendar</button><button data-v="bookings" class="soft">Bookings</button><button data-v="tasks" class="soft">Tasks</button><button data-v="routines" class="soft">Routines</button></div>
@@ -77,7 +77,7 @@ const LEGACY_KEY='stayflow-v3';
 const CLOUD_CONFIG_KEY='stayflow-v4-cloud';
 function newId(){if(window.crypto&&typeof window.crypto.randomUUID==='function')return window.crypto.randomUUID();return 'sf-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2)+'-'+Math.random().toString(36).slice(2);}
 function cloneData(x){return JSON.parse(JSON.stringify(x));}
-const defaultData={settings:{name:'StayFlow Pro',in:'14:00',out:'12:00',notify:false,alarmSound:true},bookings:[],events:[],routines:[
+const defaultData={settings:{name:"Andrei's Business Flow",in:'14:00',out:'12:00',notify:false,alarmSound:true},bookings:[],events:[],routines:[
 {id:newId(),title:'Check guest messages',repeat:'daily',time:'09:00',type:'Guest follow-up',notes:'',active:true},
 {id:newId(),title:'Review today’s arrivals and departures',repeat:'daily',time:'10:00',type:'Operations',notes:'',active:true},
 {id:newId(),title:'Website / inquiry check',repeat:'daily',time:'16:00',type:'Website',notes:'',active:true}
@@ -93,7 +93,7 @@ if(!data){
 function normalizeData(d){
   d=d&&typeof d==='object'?d:cloneData(defaultData);
   d.settings=d.settings&&typeof d.settings==='object'?d.settings:{};
-  d.settings.name=d.settings.name||'StayFlow Pro'; d.settings.in=d.settings.in||'14:00'; d.settings.out=d.settings.out||'12:00';
+  d.settings.name=d.settings.name||"Andrei's Business Flow"; d.settings.in=d.settings.in||'14:00'; d.settings.out=d.settings.out||'12:00';
   d.settings.alarmSound=d.settings.alarmSound!==false; d.settings.notify=!!d.settings.notify;
   d.bookings=Array.isArray(d.bookings)?d.bookings:[]; d.events=Array.isArray(d.events)?d.events:[]; d.routines=Array.isArray(d.routines)?d.routines:[];
   d.rooms=Array.isArray(d.rooms)?d.rooms:[]; d.guests=Array.isArray(d.guests)?d.guests:[]; d.checks=Array.isArray(d.checks)?d.checks:[];
