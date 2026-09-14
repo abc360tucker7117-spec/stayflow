@@ -90,8 +90,20 @@ if(!data){
   migratedFromV3=!!legacy;
   localStorage.setItem(KEY,JSON.stringify(data));
 }
-data.settings=data.settings||{}; data.settings.alarmSound=data.settings.alarmSound!==false; data.financePersonal=data.financePersonal||[]; data.financeBusiness=data.financeBusiness||[];
-if(!data.financeBusiness.length && data.expenses?.length){data.financeBusiness=data.expenses.map(x=>({...x,kind:'expense'}));}
+function normalizeData(d){
+  d=d&&typeof d==='object'?d:cloneData(defaultData);
+  d.settings=d.settings&&typeof d.settings==='object'?d.settings:{};
+  d.settings.name=d.settings.name||'StayFlow Pro'; d.settings.in=d.settings.in||'14:00'; d.settings.out=d.settings.out||'12:00';
+  d.settings.alarmSound=d.settings.alarmSound!==false; d.settings.notify=!!d.settings.notify;
+  d.bookings=Array.isArray(d.bookings)?d.bookings:[]; d.events=Array.isArray(d.events)?d.events:[]; d.routines=Array.isArray(d.routines)?d.routines:[];
+  d.rooms=Array.isArray(d.rooms)?d.rooms:[]; d.guests=Array.isArray(d.guests)?d.guests:[]; d.checks=Array.isArray(d.checks)?d.checks:[];
+  d.expenses=Array.isArray(d.expenses)?d.expenses:[]; d.financePersonal=Array.isArray(d.financePersonal)?d.financePersonal:[]; d.financeBusiness=Array.isArray(d.financeBusiness)?d.financeBusiness:[];
+  d.notes=typeof d.notes==='string'?d.notes:''; d.quick=typeof d.quick==='string'?d.quick:'';
+  if(!d.financeBusiness.length && d.expenses.length) d.financeBusiness=d.expenses.map(x=>({...x,kind:'expense'}));
+  return d;
+}
+data=normalizeData(data);
+
 let cloudConfig=JSON.parse(localStorage.getItem(CLOUD_CONFIG_KEY)||'null')||{};
 let supabaseClient=null, cloudUser=null, cloudChannel=null, cloudSaveTimer=null, cloudLoading=false, cloudSaving=false;
 
@@ -145,10 +157,10 @@ async function loadCloud(){
   $('#cloudUser').textContent=`Signed in as ${cloudUser.email||'account'}`;
   setCloudStatus('Loading…','orangeb');
   const {data:row,error}=await sb.from('planner_data').select('data,updated_at').eq('user_id',cloudUser.id).maybeSingle();
-  if(error){setCloudStatus('Sync error','redb');console.error(error);return}
+  if(error){setCloudStatus('Sync error','redb');console.error('StayFlow cloud load error:',error);alert('Cloud load failed: '+(error.message||error.code||'Unknown error'));return}
   cloudLoading=true;
   if(row?.data){
-    data=row.data;
+    data=normalizeData(row.data);
     localStorage.setItem(KEY,JSON.stringify(data));
     renderAll();
   }else{
@@ -257,11 +269,11 @@ function toggleRoutine(id){let r=data.routines.find(x=>x.id===id);r.active=!r.ac
 function renderGuests(){$('#grows').innerHTML=data.guests.length?data.guests.map(g=>`<tr><td><b>${esc(g.name)}</b></td><td>${esc(g.phone)}</td><td>${esc(g.contact)}</td><td>${esc(g.notes)}</td><td><button class="btn danger sm" onclick="delGuest('${g.id}')">Delete</button></td></tr>`).join(''):'<tr><td colspan="5" class="empty">No guests.</td></tr>'}function delGuest(id){data.guests=data.guests.filter(x=>x.id!==id);save()}
 let financeTab='business';
 function setFinanceTab(tab){financeTab=tab;renderFinance()} window.setFinanceTab=setFinanceTab;
-function financeRows(){return financeTab==='personal'?data.financePersonal:data.financeBusiness}
+function financeRows(){return financeTab==='personal'?(Array.isArray(data.financePersonal)?data.financePersonal:[]):(Array.isArray(data.financeBusiness)?data.financeBusiness:[])}
 function monthKey(d){let x=new Date(d);return `${x.getFullYear()}-${String(x.getMonth()+1).padStart(2,'0')}`}
 function renderFinance(){let rows=financeRows();let sel=$('#financeMonth');let months=new Set(rows.map(x=>monthKey(x.date)));data.bookings.filter(b=>b.status==='Confirmed').forEach(b=>months.add(monthKey(b.in)));months.add(monthKey(new Date()));let vals=[...months].sort().reverse();if(sel){sel.innerHTML=vals.map(m=>`<option value="${m}">${m}</option>`).join('');if(!sel.value||!vals.includes(sel.value))sel.value=monthKey(new Date())}let mk=sel?.value||monthKey(new Date());let mr=rows.filter(x=>monthKey(x.date)===mk);if(financeTab==='business'){let autoRev=data.bookings.filter(b=>b.status==='Confirmed'&&monthKey(b.in)===mk).reduce((a,b)=>a+b.amount,0);mr=[...mr];var rev=autoRev+mr.filter(x=>x.kind==='revenue').reduce((a,x)=>a+x.amount,0)}else var rev=mr.filter(x=>x.kind==='revenue').reduce((a,x)=>a+x.amount,0);let ex=mr.filter(x=>x.kind==='expense').reduce((a,x)=>a+x.amount,0);$('#frev').textContent=money(rev);$('#fexp').textContent=money(ex);$('#fnet').textContent=money(rev-ex);$('#bizTab').classList.toggle('active',financeTab==='business');$('#perTab').classList.toggle('active',financeTab==='personal');$('#financeLogTitle').textContent=(financeTab==='business'?'Business':'Personal')+' transactions';$('#monthlyReport').innerHTML=`<div class="mini"><span class="meta">Month</span><b>${mk}</b></div><div class="mini"><span class="meta">Revenue</span><b>${money(rev)}</b></div><div class="mini"><span class="meta">Expenses</span><b>${money(ex)}</b></div><div class="mini"><span class="meta">Net</span><b>${money(rev-ex)}</b></div>`;$('#expenses').innerHTML=mr.length?mr.sort((a,b)=>b.date.localeCompare(a.date)).map(x=>`<div class="item"><div><div class="title">${esc(x.desc)}</div><div class="meta">${esc(x.cat)} • ${x.date} • ${x.kind}</div></div><div class="actions"><b>${money(x.amount)}</b><button class="btn danger sm" onclick="delFinance('${x.id}')">Delete</button></div></div>`).join(''):'<div class="empty">No transactions for this month.</div>'}
 function delFinance(id){data.financePersonal=data.financePersonal.filter(x=>x.id!==id);data.financeBusiness=data.financeBusiness.filter(x=>x.id!==id);data.expenses=data.financeBusiness.filter(x=>x.kind==='expense');save()}
-function renderChecks(){$('#checks').innerHTML=data.checks.map(x=>`<div class="item"><div><input type="checkbox" style="width:auto" ${x.done?'checked':''} onchange="check(${x.id})"> ${esc(x.text)}</div><button class="btn danger sm" onclick="delCheck(${x.id})">×</button></div>`).join('')}function check(id){let x=data.checks.find(c=>c.id===id);x.done=!x.done;save()}function delCheck(id){data.checks=data.checks.filter(x=>x.id!==id);save()}function addCheck(){let t=prompt('Checklist item');if(t){data.checks.push({id:Date.now(),text:t,done:false});save()}}
+function renderChecks(){data.checks=Array.isArray(data.checks)?data.checks:[];$('#checks').innerHTML=data.checks.map(x=>`<div class="item"><div><input type="checkbox" style="width:auto" ${x.done?'checked':''} onchange="check(${x.id})"> ${esc(x.text)}</div><button class="btn danger sm" onclick="delCheck(${x.id})">×</button></div>`).join('')}function check(id){let x=data.checks.find(c=>c.id===id);x.done=!x.done;save()}function delCheck(id){data.checks=data.checks.filter(x=>x.id!==id);save()}function addCheck(){let t=prompt('Checklist item');if(t){data.checks.push({id:Date.now(),text:t,done:false});save()}}
 let calDate=new Date();function changeMonth(n){calDate=new Date(calDate.getFullYear(),calDate.getMonth()+n,1);renderCalendar()}
 function renderCalendar(){let y=calDate.getFullYear(),m=calDate.getMonth(),first=new Date(y,m,1),start=new Date(y,m,1-first.getDay()),h=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].map(x=>`<div class="dow">${x}</div>`).join(''),ev=combined();for(let i=0;i<42;i++){let d=new Date(start);d.setDate(start.getDate()+i);let k=key(d),a=ev.filter(x=>key(x.when)===k).slice(0,3),rs=data.routines.filter(r=>routineApplies(r,d)).map(r=>({title:r.title,time:r.time,type:'reminder'})).slice(0,2);h+=`<div class="day ${d.getMonth()!==m?'muted':''} ${k===key(new Date())?'today':''}"><div class="dn">${d.getDate()}</div>${a.map(x=>`<div class="pill ${x.type}">${x.type==='booking'?'🏡':x.type==='meeting'?'👥':'•'} ${esc(x.title)}</div>`).join('')}${rs.map(x=>`<div class="pill reminder">⏰ ${esc(x.time)} ${esc(x.title)}</div>`).join('')}</div>`}$('#calTitle').textContent=calDate.toLocaleDateString('en-PH',{month:'long',year:'numeric'});$('#cal').innerHTML=h}
 function icsDate(d){return new Date(d).toISOString().replace(/[-:]/g,'').replace(/\.\d{3}Z$/,'Z')}
