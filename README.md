@@ -1,4 +1,4 @@
-# StayFlow Pro V5 Cloud
+# Andrei's Business Hub V5 Cloud
 
 A cloud-synced staycation operations planner for GitHub Pages + Supabase.
 
@@ -16,7 +16,7 @@ A cloud-synced staycation operations planner for GitHub Pages + Supabase.
 - Service-worker cache version bumped so GitHub Pages devices receive the upgrade.
 
 ## Calendar/alarm limitation
-A static website cannot directly control the iOS/Android system Calendar database. StayFlow exports an `.ics` event with a calendar alarm; the device's Calendar app can then manage the alarm. Browser alarms/notifications are reliable only while the browser/PWA is allowed to run and notification permissions are enabled.
+A static website cannot directly control the iOS/Android system Calendar database. Andrei's Business Hub exports an `.ics` event with a calendar alarm; the device's Calendar app can then manage the alarm. Browser alarms/notifications are reliable only while the browser/PWA is allowed to run and notification permissions are enabled.
 
 ## Cloud
 Supabase stores the planner JSON in `public.planner_data`. Existing RLS policies keep each user's row private. No new SQL table is required for this upgrade because finance data remains inside the existing JSON document.
