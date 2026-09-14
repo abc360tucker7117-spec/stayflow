@@ -144,7 +144,7 @@ async function saveCloud(){
   const snapshot=cloneData(data);
   const {data:row,error}=await sb.from('planner_data').upsert({user_id:cloudUser.id,data:snapshot,updated_at:new Date().toISOString()},{onConflict:'user_id'}).select('updated_at').single();
   cloudSaving=false;
-  if(error){setCloudStatus('Sync error','redb');console.error("Andrei's Business Hub cloud save error:',error);alert('Cloud save failed: '+error.message);return false;}
+  if(error){setCloudStatus('Sync error','redb');console.error("Andrei's Business Hub cloud save error:",error);alert('Cloud save failed: '+error.message);return false;}
   setCloudStatus('Synced','greenb');
   return !!row;
 }
