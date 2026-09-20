@@ -1,10 +1,10 @@
 {
-  "name": "Andrei's Business Flow",
-  "short_name": "Andrei's Flow",
+  "name": "Andrei's Business Hub",
+  "short_name": "Business Hub",
   "start_url": "./",
   "display": "standalone",
-  "background_color": "#f3f6fb",
-  "theme_color": "#2563eb",
+  "background_color": "#f7f8f4",
+  "theme_color": "#174d3d",
   "description": "Staycation booking, calendar, recurring reminders and workload planner",
-  "icons": []
+  "icons": [{"src":"./icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any"}]
 }

@@ -1,5 +1,15 @@
-const CACHE='stayflow-v8-cache-1';
-const ASSETS=['./','./index.html','./manifest.webmanifest','./supabase-config.js'];
-self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)).then(()=>self.skipWaiting())));
-self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
-self.addEventListener('fetch',e=>{if(e.request.method!=='GET')return;e.respondWith(fetch(e.request).then(r=>{let c=r.clone();caches.open(CACHE).then(x=>x.put(e.request,c));return r}).catch(()=>caches.match(e.request).then(r=>r||caches.match('./index.html'))))});
+const CACHE = 'business-hub-v13-1';
+const SHELL = ['./', './index.html', './styles.css?v=13', './core.js?v=13', './app.js?v=13', './cloud.js?v=13', './vendor/supabase.js', './supabase-config.js', './manifest.webmanifest', './icon.svg'];
+self.addEventListener('install', event => event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(SHELL)).then(() => self.skipWaiting())));
+self.addEventListener('activate', event => event.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(k => (k.startsWith('stayflow-') || k.startsWith('business-hub-')) && k !== CACHE).map(k => caches.delete(k)))).then(() => self.clients.claim())));
+self.addEventListener('fetch', event => {
+  const request = event.request, url = new URL(request.url);
+  // Never cache account requests, third-party resources, or cloud API responses.
+  if (request.method !== 'GET' || url.origin !== self.location.origin) return;
+  const permitted = SHELL.some(path => new URL(path, self.registration.scope).href === url.href);
+  if (!permitted && request.mode !== 'navigate') return;
+  event.respondWith(fetch(request).then(response => {
+    if (response.ok && response.type === 'basic') { const copy = response.clone(); event.waitUntil(caches.open(CACHE).then(cache => cache.put(request, copy))); }
+    return response;
+  }).catch(async () => (await caches.match(request)) || (request.mode === 'navigate' ? await caches.match('./index.html') : Response.error())));
+});
