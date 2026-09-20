@@ -6,7 +6,7 @@
 })(typeof globalThis !== 'undefined' ? globalThis : this, function () {
   'use strict';
   const ZONE = 'Asia/Manila';
-  const arrays = ['bookings', 'rooms', 'events', 'routines', 'guests', 'checks', 'financeBusiness', 'financePersonal'];
+  const arrays = ['bookings', 'rooms', 'events', 'routines', 'guests', 'checks', 'financeBusiness', 'financePersonal', 'goals', 'accomplishments', 'loans', 'loanPayments'];
   const clone = value => JSON.parse(JSON.stringify(value));
   const id = () => globalThis.crypto?.randomUUID?.() || 'hub-' + Date.now().toString(36) + Math.random().toString(36).slice(2);
   const num = v => Number.isFinite(Number(v)) ? Number(v) : 0;
@@ -39,7 +39,7 @@
   }
   const money = value => new Intl.NumberFormat('en-PH', { style: 'currency', currency: 'PHP', maximumFractionDigits: 2 }).format(num(value));
   function defaults() {
-    return { schemaVersion: 13, settings: { name: "Andrei's Business Hub", in: '14:00', out: '12:00', notify: false, alarmSound: true }, bookings: [], rooms: [], events: [], routines: [], guests: [], checks: [], financeBusiness: [], financePersonal: [], expenses: [], notes: '', quick: '', routineDone: {} };
+    return { schemaVersion: 13, settings: { name: "Andrei's Business Hub", in: '14:00', out: '12:00', notify: false, alarmSound: true }, bookings: [], rooms: [], events: [], routines: [], guests: [], checks: [], financeBusiness: [], financePersonal: [], expenses: [], goals: [], accomplishments: [], loans: [], loanPayments: [], notes: '', quick: '', routineDone: {} };
   }
   function normalize(input) {
     if (!input || typeof input !== 'object' || Array.isArray(input)) throw new Error('The backup must contain a planner object.');

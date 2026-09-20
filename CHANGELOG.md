@@ -1,3 +1,15 @@
+# Version 14 — Personal planning and loan tracking
+
+- Reservation navigation and dashboard metrics replaced by tasks, meetings, and long-term goals. Historical booking records remain in backups; finance now reports entered transactions only.
+- Week, month, and agenda schedule views include tasks, routines, and goal deadlines.
+- Tracker stores progress, accomplishment history, optional deadlines, and daily dashboard reminders.
+- Finance > Loans supports monthly/yearly installments, repayment duration, payment history, remaining balance, and payment corrections.
+- Loan totals are user-entered agreed repayments including fees/interest; this is not an interest or amortization calculator. Payments are separate from expense records to avoid silently duplicating existing entries.
+- Google/Apple ICS calendar export includes recurring routines and 10-minute alarms. This release does not provide automatic two-way calendar synchronization.
+- Live Manila date/time appears throughout the site. Existing notes, finance entries, properties, routines, guests, account connection, and backups remain compatible.
+- Validation: 30 automated checks pass. Local browser checks cover goal creation/accomplishments, loan creation/payment/overpayment rejection, and responsive calendar layout.
+
+
 # Version 13 — Business Hub redesign
 
 - Warm white and forest-green visual design with grouped navigation, touch-friendly controls, and phone navigation to every section.
