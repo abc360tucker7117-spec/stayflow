@@ -1,5 +1,5 @@
-const CACHE = 'business-hub-v14-1';
-const SHELL = ['./', './index.html', './styles.css?v=14', './core.js?v=14', './app.js?v=14', './planner.js?v=14', './cloud.js?v=14', './vendor/supabase.js', './supabase-config.js', './manifest.webmanifest', './icon.svg'];
+const CACHE = 'business-hub-v15-1';
+const SHELL = ['./', './index.html', './styles.css?v=15', './upgrade.css?v=15', './finance.js?v=15', './vendor/fredoka-latin.woff2', './vendor/nunito-latin.woff2', './core.js?v=15', './app.js?v=15', './planner.js?v=15', './cloud.js?v=15', './vendor/supabase.js', './supabase-config.js', './manifest.webmanifest', './icon.svg'];
 self.addEventListener('install', event => event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(SHELL)).then(() => self.skipWaiting())));
 self.addEventListener('activate', event => event.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(k => (k.startsWith('stayflow-') || k.startsWith('business-hub-')) && k !== CACHE).map(k => caches.delete(k)))).then(() => self.clients.claim())));
 self.addEventListener('fetch', event => {

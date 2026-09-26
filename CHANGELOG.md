@@ -1,3 +1,13 @@
+# Version 15 — Finance cutoffs and blue sidebar design
+
+- White backgrounds, black lettering, rounded Fredoka/Nunito fonts, and blue action buttons. Desktop sidebar retained; phone Menu opens the same navigation.
+- Separate Business, Personal, and Loans charts. 1–15, 16–month end, full-month and inclusive custom date filters, with previous/next controls and remembered report dates.
+- Transaction search, category/type filtering, selected-range CSV exports, and prior-period net comparison. Totals and graphs share the filters.
+- Loan reports distinguish cutoff-end balances from current management balances. Historical totals exclude future payments; original scheduled installments remain separately labeled.
+- Existing storage keys, schema version 13, record IDs, cloud connection and cloud table retained. A local recovery copy is created before the first v15 load of saved data. No live records or samples are bundled with the release.
+- Bundled fonts support offline use. Cache bumped to v15; only application assets are cached.
+- 34 automated checks pass, including date boundaries, leap years, cents, account separation, immutable reports, CSV escaping, historical loan balances, and existing sync/data-preservation checks.
+
 # Version 14 — Personal planning and loan tracking
 
 - Reservation navigation and dashboard metrics replaced by tasks, meetings, and long-term goals. Historical booking records remain in backups; finance now reports entered transactions only.

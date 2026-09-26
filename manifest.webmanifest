@@ -3,8 +3,15 @@
   "short_name": "Business Hub",
   "start_url": "./",
   "display": "standalone",
-  "background_color": "#f7f8f4",
-  "theme_color": "#174d3d",
+  "background_color": "#ffffff",
+  "theme_color": "#75acff",
   "description": "Staycation booking, calendar, recurring reminders and workload planner",
-  "icons": [{"src":"./icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any"}]
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
 }

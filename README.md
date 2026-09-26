@@ -2,7 +2,7 @@
 
 A responsive personal and business planner for GitHub Pages and Supabase.
 
-## Version 14
+## Version 15
 
 See CHANGELOG.md for the redesign and functional fixes. The existing `stayflow-v4` browser storage key and `public.planner_data` cloud table remain in use. No new SQL migration is needed. `supabase-config.js` is unchanged.
 
@@ -19,9 +19,9 @@ Open http://127.0.0.1:4173. Browser testing should use this local origin, never 
 
 ## Publish
 
-GitHub Pages serves the files in the repository root. Push to the configured `main` branch. Keep index.html, styles.css, core.js, planner.js, app.js, cloud.js, vendor/, icon.svg, manifest.webmanifest, supabase-config.js and sw.js together. The `.nojekyll` file enables ordinary static hosting.
+GitHub Pages serves the files in the repository root. Push to the configured `main` branch. Keep index.html, styles.css, upgrade.css, core.js, planner.js, finance.js, app.js, cloud.js, vendor/, icon.svg, manifest.webmanifest, supabase-config.js and sw.js together. The `.nojekyll` file enables ordinary static hosting.
 
-After an update, refresh each device. Old clients should be updated before editing because they do not implement conditional cloud writes. The app reports Version 14 in Settings.
+After an update, refresh each device. Old clients should be updated before editing because they do not implement conditional cloud writes. The app reports Version 15 in Settings.
 
 ## Data and recovery
 
@@ -37,6 +37,7 @@ After an update, refresh each device. Old clients should be updated before editi
 
 ## Verification
 
-30 automated checks cover booking validation, balances, date arithmetic, routine completion, reports, migration, merge conflicts, conditional writes, account switching and offline cache boundaries. Manual browser tests cover property and booking creation, date validation, linked turnover tasks, decimal finance entries and month selection, routine completion, note persistence, and phone/iPad layouts.
+34 automated checks cover booking validation, balances, date arithmetic, routine completion, reports, migration, merge conflicts, conditional writes, account switching and offline cache boundaries. Manual browser tests cover property and booking creation, date validation, linked turnover tasks, decimal finance entries and month selection, routine completion, note persistence, and phone/iPad layouts.
 
 Real authenticated cross-device sync requires the owner's signed-in session. Tests use a simulated cloud service and do not inspect or modify live account records.
+
