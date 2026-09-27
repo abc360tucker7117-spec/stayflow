@@ -28,5 +28,21 @@
     // Fold on UTF-8 boundaries for calendar clients with strict RFC 5545 parsers.
     return lines.map(line=>{let result='',part='',bytes=0;for(const ch of line){const size=new TextEncoder().encode(ch).length;if(bytes+size>74){result+=part+'\r\n ';part='';bytes=1;}part+=ch;bytes+=size;}return result+part;}).join('\r\n')+'\r\n';
   }
-  return {loanSummary,dueDate,calendar};
+  function loanReminders(loans, payments, today, days = 7) {
+    const end = new Date(today+'T00:00:00Z'); end.setUTCDate(end.getUTCDate()+days);
+    const through = end.toISOString().slice(0,10);
+    return loans.flatMap(loan => {
+      const summary = loanSummary(loan, payments.filter(p=>!p.date || p.date<=today), today);
+      let credit = cents(summary.paid);
+      const unpaid = summary.schedule.map(item=>{
+        const amount=cents(item.amount), used=Math.min(credit,amount); credit-=used;
+        return {date:item.date,amount:(amount-used)/100};
+      }).filter(item=>item.amount>0 && item.date<=through);
+      if(!unpaid.length || !summary.remaining) return [];
+      const date=unpaid[0].date, overdue=date<today;
+      const amount=unpaid.filter(item=>overdue?item.date<=today:item.date===date).reduce((sum,item)=>sum+cents(item.amount),0)/100;
+      return [{loanId:loan.id,title:loan.title,date,amount,days:Math.round((Date.parse(date+'T00:00:00Z')-Date.parse(today+'T00:00:00Z'))/86400000),status:overdue?'Overdue':date===today?'Due today':'Upcoming'}];
+    }).sort((a,b)=>a.date.localeCompare(b.date)||a.title.localeCompare(b.title));
+  }
+  return {loanSummary,loanReminders,dueDate,calendar};
 });
