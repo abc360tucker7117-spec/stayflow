@@ -97,6 +97,7 @@
     $('#main').focus({ preventScroll: true });
   }
   function render() {
+    const previousBars = window.HubMotion?.capture();
     navigation();
     const headerAction = $('#page-action');
     if (headerAction) { headerAction.dataset.action = state.view === 'finance' ? (state.financeTab === 'loans' ? 'loan-new' : 'finance-new') : 'event-new'; headerAction.textContent = state.view === 'finance' ? (state.financeTab === 'loans' ? '＋ Add loan' : '＋ Add transaction') : '＋ New task / meeting'; }
@@ -108,6 +109,7 @@
     document.title = labels[state.view] + " · Andrei's Business Hub";
     const views = { tracker: renderTracker, today: renderToday, calendar: renderCalendar, bookings: renderBookings, properties: renderProperties, tasks: renderTasks, routines: renderRoutines, guests: renderGuests, finance: renderFinance, notes: renderNotes, settings: renderSettings };
     $('#view').innerHTML = views[state.view]();
+    window.HubMotion?.render(state.view + (state.view === 'finance' ? ':' + state.financeTab : ''), previousBars);
     if (storageError) notice('Your saved data could not be read: ' + storageError + ' The original copy is untouched. Download it in Settings to recover it.', 'raw-export', true);
   }
   function agendaRow(item, date) {
