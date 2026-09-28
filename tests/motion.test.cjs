@@ -16,3 +16,10 @@ test('reduced motion prevents movement and cancels motion when preference change
  const quiet=setup(true);quiet.api.render('today');assert.equal(quiet.calls.length,0);
  const s=setup();s.api.render('today');s.preference.matches=true;s.preference.change();assert.equal(s.animation.cancelled,true);
 });
+test('each navigation click replays motion, while ordinary same-page renders stay still',()=>{
+ const s=setup();s.api.render('today');
+ s.api.render('today',[],true);assert.equal(s.calls.length,3);assert.equal(s.animation.cancelled,true);
+ s.api.render('today',[],true);assert.equal(s.calls.length,5);
+ s.api.render('today');assert.equal(s.calls.length,5);
+ const quiet=setup(true);quiet.api.render('today',[],true);assert.equal(quiet.calls.length,0);
+});
