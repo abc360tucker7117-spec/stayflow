@@ -19,13 +19,18 @@
         value: element.classList.contains('finance-fill') ? element.style.width : element.style.height
       }));
     },
-    render(key, previousBars = []) {
+    render(key, previousBars = [], navigationClick = false) {
       const changedPage = previousKey !== key;
       previousKey = key;
       if (preference.matches) return;
-      if (changedPage) {
+      if (changedPage || navigationClick) {
+        running.forEach(animation => animation.cancel());
+        running.clear();
         const view = document.getElementById('view');
-        if (view) animate(view, [{opacity: .5, transform: 'translateY(8px)'}, {opacity: 1, transform: 'translateY(0)'}], {duration: 240, easing: 'cubic-bezier(.2,.8,.2,1)'});
+        if (view) animate(view, [{opacity: .35, transform: 'translateY(12px)'}, {opacity: 1, transform: 'translateY(0)'}], {duration: 300, easing: 'cubic-bezier(.2,.8,.2,1)'});
+        if (navigationClick) document.querySelectorAll('#navigation .nav-item.active, #mobile-navigation button.active').forEach(element => {
+          animate(element, [{transform: 'scale(.96)', backgroundColor: '#c4dcff'}, {transform: 'scale(1)', backgroundColor: '#edf4ff'}], {duration: 300, easing: 'cubic-bezier(.2,.8,.2,1)'});
+        });
       } else {
         document.querySelectorAll('#view .finance-fill, #view .trend-bar').forEach((element, index) => {
           const old = previousBars[index];
