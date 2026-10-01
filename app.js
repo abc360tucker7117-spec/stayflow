@@ -109,9 +109,18 @@
     document.title = labels[state.view] + " · Andrei's Business Hub";
     const views = { tracker: renderTracker, today: renderToday, calendar: renderCalendar, bookings: renderBookings, properties: renderProperties, tasks: renderTasks, routines: renderRoutines, guests: renderGuests, finance: renderFinance, notes: renderNotes, settings: renderSettings };
     $('#view').innerHTML = views[state.view]();
+    sizeNotebook();
     window.HubMotion?.render(state.view + (state.view === 'finance' ? ':' + state.financeTab : ''), previousBars, navigationClick === true);
     if (storageError) notice('Your saved data could not be read: ' + storageError + ' The original copy is untouched. Download it in Settings to recover it.', 'raw-export', true);
   }
+  // Let the page scroll instead of trapping touch gestures inside long notes.
+  function sizeNotebook() {
+    const note = $('#business-notes');
+    if (!note) return;
+    note.style.height = Math.max(430, note.scrollHeight + 2) + 'px';
+  }
+  window.addEventListener('resize', sizeNotebook);
+  document.fonts?.ready.then(sizeNotebook);
   function agendaRow(item, date) {
     const isBooking = item.kind === 'booking';
     return `<div class="agenda-row ${item.done ? 'done' : ''}"><span class="agenda-time">${time(item.when)}</span><span class="agenda-dot ${esc(item.type)}"></span><div><div class="agenda-title">${esc(item.title)}</div><div class="agenda-sub">${esc(item.subtitle)}</div></div><div class="agenda-actions">${isBooking ? badge(item.status) + `<button class="icon-button" data-action="booking-detail" ${idAttr(item.id)} aria-label="View booking for ${esc(item.title)}">${icon('arrow')}</button>` : `<button class="check-button ${item.done ? 'checked' : ''}" data-action="${item.kind === 'routine' ? 'routine-done' : 'event-done'}" data-date="${date}" ${idAttr(item.id)} aria-label="${item.done ? 'Undo' : 'Complete'} ${esc(item.title)}" aria-pressed="${!!item.done}">${item.done ? icon('check') : ''}</button>`}</div></div>`;
@@ -415,7 +424,7 @@
   document.addEventListener('input', event => {
     const el = event.target;
     if (el.closest('#dialog form')) formDirty = true;
-    if (el.dataset.note) { data[el.dataset.note] = el.value; persist(); }
+    if (el.dataset.note) { data[el.dataset.note] = el.value; if (el.id === 'business-notes') sizeNotebook(); persist(); }
     if (el.id === 'booking-search') { const cursor = el.selectionStart; state.query = el.value; $('#view').innerHTML = renderBookings(); const input = $('#booking-search'); input.focus(); input.setSelectionRange(cursor, cursor); }
   });
   document.addEventListener('change', async event => {

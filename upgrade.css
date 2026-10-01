@@ -32,3 +32,7 @@ dialog[open]{animation:hub-dialog-in 180ms ease-out}.sidebar.mobile-open{animati
 }
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 @media(max-width:700px){.chatgpt-launcher{right:16px;bottom:calc(82px + env(safe-area-inset-bottom));padding:10px 16px;min-height:44px}.page-footer{padding-bottom:80px}}
+
+/* Long notes use page scrolling on touch devices. */
+#business-notes{overflow:hidden;resize:none;touch-action:pan-y;line-height:1.6}
+
