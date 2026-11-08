@@ -1,6 +1,6 @@
 const http = require('node:http'), fs = require('node:fs'), path = require('node:path');
 const root = __dirname;
-const mime = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.svg': 'image/svg+xml', '.json': 'application/json', '.webmanifest': 'application/manifest+json' };
+const mime = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.png': 'image/png', '.svg': 'image/svg+xml', '.json': 'application/json', '.webmanifest': 'application/manifest+json' };
 http.createServer((req, res) => {
   const pathname = decodeURIComponent(new URL(req.url, 'http://localhost').pathname);
   const filename = path.resolve(root, '.' + (pathname === '/' ? '/index.html' : pathname));

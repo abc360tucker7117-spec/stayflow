@@ -36,3 +36,54 @@ dialog[open]{animation:hub-dialog-in 180ms ease-out}.sidebar.mobile-open{animati
 /* Long notes use page scrolling on touch devices. */
 #business-notes{overflow:hidden;resize:none;touch-action:pan-y;line-height:1.6}
 
+/* Phone layout and installed-app safe areas. */
+.sidebar-backdrop[hidden]{display:none}
+.sidebar-backdrop{position:fixed;inset:0;z-index:45;border:0;border-radius:0;background:#14233d66;touch-action:manipulation}
+.navigation-open{overflow:hidden}
+@media(max-width:700px){
+ html{scroll-padding-bottom:100px}
+ body{padding-top:env(safe-area-inset-top);padding-left:env(safe-area-inset-left);padding-right:env(safe-area-inset-right)}
+ main{padding:22px 16px calc(110px + env(safe-area-inset-bottom))}
+ .topbar{display:grid;grid-template-columns:auto minmax(0,1fr);padding:10px 16px;gap:8px}
+ .topbar-actions{display:grid;grid-template-columns:minmax(0,1fr) 44px;gap:4px 8px;min-width:0;width:100%;margin:0}
+ .site-clock{grid-column:1/-1;white-space:normal;overflow-wrap:anywhere;text-align:right;font-size:11px}
+ .sync-button{min-width:0;max-width:none;font-size:11px;justify-content:flex-end;white-space:normal;text-align:right;line-height:1.3}
+ .status-dot{flex-shrink:0}.avatar-button{width:44px;height:44px;min-width:44px;min-height:44px}
+ .page-header h1{font-size:clamp(28px,8vw,36px);overflow-wrap:anywhere}
+ .header-actions{flex-wrap:wrap;gap:8px}.header-actions .button{min-width:0;flex:1 1 130px;padding:10px 12px}
+ .panel{padding:16px}.panel-header{flex-wrap:wrap;align-items:flex-start;gap:10px}
+ .panel-header h2,.grow,.goal-card,.loan-list,.room-info{min-width:0;overflow-wrap:anywhere}
+ .form-grid,.details-grid{grid-template-columns:minmax(0,1fr)}
+ .form-grid>*{min-width:0;grid-column:1/-1}
+ input,select,textarea{font-size:16px;max-width:100%;min-width:0}
+ .button,.icon-button,.segments button,.check-button,.text-link{min-height:44px}
+ .icon-button,.check-button,.agenda-actions .check-button,.agenda-actions .icon-button{min-width:44px;width:44px;height:44px}
+ .agenda-row{grid-template-columns:48px 6px minmax(0,1fr);gap:8px}
+ .agenda-actions{grid-column:3;flex-wrap:wrap}.agenda-title{overflow-wrap:anywhere}
+ .room-detail{overflow-wrap:anywhere;max-width:100px}.stat-number{font-size:clamp(22px,7vw,28px);overflow-wrap:anywhere}
+ .toolbar,.actions-row,.dialog-actions{gap:8px}.dialog-actions .button{flex:1 1 140px;white-space:normal}
+ dialog{width:calc(100% - 16px);max-width:560px;max-height:calc(100dvh - 24px - env(safe-area-inset-top) - env(safe-area-inset-bottom));padding:20px 16px;overflow-y:auto;overscroll-behavior:contain}
+ .dialog-header{gap:12px;align-items:flex-start}.dialog-header>div{min-width:0}.dialog-header h2{font-size:24px;overflow-wrap:anywhere}
+ .table-wrap{max-width:100%;overflow-x:auto;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch}
+ .finance-bar-row>div:first-child{flex-wrap:wrap}.trend-groups{min-width:280px}.finance-trend{overflow-x:auto}
+ .sidebar.mobile-open{padding-top:calc(16px + env(safe-area-inset-top));padding-bottom:calc(24px + env(safe-area-inset-bottom));overscroll-behavior:contain}
+ .sidebar.mobile-open:after{display:none}.sidebar.mobile-open .nav-item{min-height:48px}
+ .bottom-nav{padding-left:max(10px,env(safe-area-inset-left));padding-right:max(10px,env(safe-area-inset-right));padding-bottom:calc(8px + env(safe-area-inset-bottom))}
+ .chatgpt-launcher{position:static;display:flex;width:max-content;max-width:calc(100% - 32px);margin:0 16px calc(100px + env(safe-area-inset-bottom));box-shadow:none}
+ .page-footer{padding-bottom:0;overflow-wrap:anywhere}.toast{bottom:calc(90px + env(safe-area-inset-bottom))}
+}
+@media(max-width:360px){.stats{grid-template-columns:1fr}.finance-tabs button{padding:10px;flex:1 1 80px}.task-row .actions-row{margin-left:0}}
+
+/* One navigation surface and contextual actions on phones. */
+[hidden]{display:none!important}
+.mobile-brand{display:none}
+.sidebar .chatgpt-launcher{position:static;display:flex;justify-content:center;margin:20px 0 12px;width:auto;max-width:100%;box-shadow:none;flex-shrink:0}
+.page-footer{padding-bottom:0}
+@media(max-width:700px){
+ .mobile-brand{display:block;font-size:16px}
+ .topbar #sidebar-toggle,.topbar .site-clock,.topbar .avatar-button,.header-actions [data-action="quick-menu"]{display:none}
+ .topbar-actions{display:flex;justify-content:flex-end}
+ .sync-button{min-height:44px}
+ .page-header{gap:16px}.header-actions:has(>#page-action[hidden]){display:none}
+ .sidebar .chatgpt-launcher{margin:18px 0 12px}
+}
