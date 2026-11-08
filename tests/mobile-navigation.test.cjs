@@ -11,7 +11,7 @@ function setup(phone=true){
  const nodes={'.sidebar':sidebar,'#sidebar-backdrop':node(),'#sidebar-toggle':trigger};
  const document={activeElement:trigger,body:node(),querySelectorAll:()=>background,addEventListener:(k,fn)=>handlers[k]=fn};
  const code=source.slice(source.indexOf('  let sidebarReturnFocus'),source.indexOf('  function navigate(view)'));
- const context={document,matchMedia:()=>media,$:s=>nodes[s]};vm.createContext(context);vm.runInContext(code,context);
+ const context={forcePhone:false,PHONE_QUERY:"phone",document,matchMedia:()=>media,$:s=>nodes[s]};vm.createContext(context);vm.runInContext(code,context);
  return {context,document,sidebar,close,last,trigger,background,handlers,media,nodes};
 }
 test('phone navigation isolates the drawer and restores focus when closed',()=>{
@@ -27,4 +27,8 @@ test('drawer traps keyboard focus and Escape closes it',()=>{
 test('desktop does not open mobile overlay and orientation changes release background',()=>{
  const s=setup(false);s.context.setSidebar(true);assert.ok(s.background.every(x=>!x.inert));
  s.media.matches=true;s.context.setSidebar(true);s.media.matches=false;s.media.change();assert.ok(s.background.every(x=>!x.inert));
+});
+
+test('explicit phone layout opens the drawer even above automatic breakpoint',()=>{
+ const s=setup(false);s.context.forcePhone=true;s.context.setSidebar(true);assert.equal(s.sidebar.attrs['aria-modal'],'true');s.context.setSidebar(false);assert.ok(s.background.every(x=>!x.inert));
 });
