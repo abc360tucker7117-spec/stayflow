@@ -1,5 +1,5 @@
-const CACHE = 'business-hub-v15-7';
-const SHELL = ['./phone.css?v=15.7', './', './index.html', './styles.css?v=15', './upgrade.css?v=15.7', './motion.js?v=15.4', './finance.js?v=15', './vendor/fredoka-latin.woff2', './vendor/nunito-latin.woff2', './core.js?v=15', './app.js?v=15.7', './planner.js?v=15.1', './cloud.js?v=15', './vendor/supabase.js', './supabase-config.js', './manifest.webmanifest', './icon.svg', './icon-192.png', './icon-512.png', './apple-touch-icon.png'];
+const CACHE = 'business-hub-v15-8';
+const SHELL = ['./phone.css?v=15.8', './', './index.html', './styles.css?v=15', './upgrade.css?v=15.8', './motion.js?v=15.4', './finance.js?v=15', './vendor/fredoka-latin.woff2', './vendor/nunito-latin.woff2', './core.js?v=15', './app.js?v=15.8', './planner.js?v=15.1', './cloud.js?v=15', './vendor/supabase.js', './supabase-config.js', './manifest.webmanifest', './icon.svg', './icon-192.png', './icon-512.png', './apple-touch-icon.png'];
 self.addEventListener('install', event => event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(SHELL)).then(() => self.skipWaiting())));
 self.addEventListener('activate', event => event.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(k => (k.startsWith('stayflow-') || k.startsWith('business-hub-')) && k !== CACHE).map(k => caches.delete(k)))).then(() => self.clients.claim())));
 self.addEventListener('fetch', event => {

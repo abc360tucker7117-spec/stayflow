@@ -48,3 +48,19 @@
 .schedule-grid{grid-template-columns:1fr}.mobile-brand small{display:block;font-size:10px;font-weight:500}.bottom-nav{z-index:40}
 
 .stats{grid-template-columns:repeat(2,minmax(0,1fr))}.split{grid-template-columns:1fr}.sidebar-close{display:none}.sidebar.mobile-open .sidebar-close{display:inline-flex}@media(max-width:360px){.stats{grid-template-columns:1fr}}
+
+/* Spacious mobile workspace, v15.8. */
+body{background:#f3f6fb;color:#152540;font-size:16px;line-height:1.55}
+h1,h2,h3,.mobile-brand{font-family:Nunito,'Segoe UI',sans-serif;color:#152540;letter-spacing:-.03em}
+.topbar{background:#fff;min-height:82px;padding:16px 20px;border-bottom:1px solid #e4eaf3}
+.mobile-brand{font-size:21px;font-weight:900}.mobile-brand small{font-size:12px;color:#6b7a90;letter-spacing:0;margin-top:3px}
+.sync-button{font-size:12px;max-width:145px;line-height:1.45}
+main{padding:28px 18px 120px}.page-header{margin-bottom:26px}.page-header h1{font-size:34px;line-height:1.15;font-weight:900;max-width:330px}.eyebrow{font-size:11px;letter-spacing:.14em;color:#60738f;margin-bottom:12px}
+.muted,#page-description{font-size:15px;line-height:1.6;color:#65758c}
+.stats{gap:12px;margin-bottom:24px}.stat{min-height:132px;padding:20px 16px;border:1px solid #e2e9f4;border-radius:22px;box-shadow:0 5px 18px #18365b06}.stat-label{font-size:14px;line-height:1.35;padding:0;color:#607089}.stat-number{font-size:36px;font-weight:900;margin-top:12px;color:#17345c}
+.panel{padding:22px 18px;border:1px solid #e3eaf4;border-radius:24px;box-shadow:0 8px 24px #18365b06}.panel h2{font-size:23px;line-height:1.25;font-weight:850}.panel-header{margin-bottom:18px}.dashboard-grid,.stack{gap:22px}
+.task-row{padding:20px 0;gap:14px;align-items:flex-start}.task-row .grow{min-width:100%}.task-row strong,.agenda-title{font-size:17px;font-weight:850}.task-row p,.agenda-sub,.inline-help,.note-footer,.finance-help{font-size:14px;line-height:1.6}.task-row .actions-row{margin:0}.task-row>.button{margin-left:0}
+.button,.button.small,.text-link{font-size:15px;min-height:48px;padding:12px 19px;font-weight:800;border-radius:15px}.primary{background:#367fe9;border-color:#367fe9;color:white;box-shadow:0 5px 12px #367fe91c}.primary:hover{background:#246bd0;color:white}.secondary{border-color:#dbe4f1;background:#f9fbfe;color:#24456e}
+.bottom-nav{background:#fff;box-shadow:0 -6px 24px #1532590b;border-top:1px solid #e0e8f3;padding:10px 8px calc(10px + env(safe-area-inset-bottom));gap:4px}.bottom-nav button{min-height:62px;font-size:12px;font-weight:750;gap:6px;color:#65758c;border-radius:16px}.bottom-nav button svg{width:25px;height:25px}.bottom-nav button.active{background:#e7f0ff;color:#246bd0}
+.notice{font-size:14px;line-height:1.6;padding:18px;border-radius:18px;margin-bottom:24px}.notice .button{font-size:14px}.page-footer{font-size:12px;color:#718099}.empty h3{font-family:Nunito,sans-serif;font-size:21px}.empty p{font-size:15px}
+label,.field-label{font-size:14px}input,select,textarea{font-size:17px;min-height:50px}.quick-note{font-size:17px!important}.badge{font-size:12px}.nav-item{font-size:16px!important;min-height:52px!important}.finance-tabs button{font-size:15px}.finance-metric>span{font-size:15px}.finance-metric small{font-size:13px}
